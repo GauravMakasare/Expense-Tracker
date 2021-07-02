@@ -1,0 +1,17 @@
+EXPENSE TRACKER APP USING SPRING BOOT AND REACTJS 
+
+The Rest API is used to make the application more interoperable with many other different languages/applications
+
+React uses Virtual DOM which is the exact replica of DOM, it tell the browser to update the webpages when we tell 
+it to update them 
+
+JPA [Java persistence API] is a wrapper around the JDBC api it makes it easier to code using beans 
+and lot of other things 
+and also with the help of annotations like one to one and one to many etc.
+and connect the java objects and make use of dependeny injection 
+using this API makes it easyy to connect with the database.
+
+Docker - it is a tool for virtualization around the OS level - it provides a isolated environment 
+                                                               for services running in different ports 
+
+Amazon ECS - [Amazon Elastic container service] - 
