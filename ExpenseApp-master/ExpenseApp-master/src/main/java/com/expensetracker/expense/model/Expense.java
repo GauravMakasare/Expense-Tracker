@@ -15,24 +15,47 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @Data
-@Table(name="expense")
+@Table(name = "expense")
 public class Expense {
 
 	@Id
 	private Long id;
-	
+
 	private Instant expensedate;
-	
+
 	private String description;
-	
+
 	private String location;
-	
+
 	@ManyToOne
 	private Category category;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	private User user;
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public Instant getExpensedate() {
+		return expensedate;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public User getUser() {
+		return user;
+	}
 
 }
