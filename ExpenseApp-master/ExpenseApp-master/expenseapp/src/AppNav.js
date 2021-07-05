@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Nav,Navbar,NavItem,NavbarBrand, NavLink} from 'reactstrap';
+//import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
 class AppNav extends Component {
@@ -7,21 +8,24 @@ class AppNav extends Component {
     render() {
         return (
           <div>
-            <Navbar color="light" light expand="md">
-              <NavbarBrand href="/">Expense Tracker Application</NavbarBrand>
-                <Nav className="ml-auto" navbar>
-                  <NavItem>
-                    <NavLink href="/home">Home</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="/categories">Categories</NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="/expenses">Expenses</NavLink>
-                  </NavItem>
-                </Nav>
-            </Navbar>
-          </div>
+      <div>
+      <Navbar color="dark" dark expand="md">
+        <NavbarBrand href="/">Expenses Tracking Application</NavbarBrand> 
+          <Nav className="m1-auto" navbar>
+            <NavItem>
+              <NavLink href="/home/">Home</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/categories">Categories</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/expenses">Expenses</NavLink>
+            </NavItem>
+          </Nav>
+      </Navbar>
+    </div>
+    </div>
+
         );
       }
 }
