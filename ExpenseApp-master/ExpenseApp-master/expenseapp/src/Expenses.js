@@ -8,17 +8,6 @@ import {Link} from 'react-router-dom';
 import Moment from 'react-moment';
 
 class Expenses extends Component {
-
-  // {
-  //   "id": 100,
-  //   "expensedate": "2019-06-16T17:00:00Z",
-  //   "description": "New York Business Trip",
-  //   "location": "New York",
-  //   "category": {
-  //   "id": 1,
-  //   "name": "Travel"
-  //   }
-  //   },
  
     emptyItem = {
         description : '' ,
