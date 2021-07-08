@@ -25,10 +25,47 @@ class Expenses extends Component {
             Categories : [],
             Expenses :[],
             item : this.emptyItem
-    
          }
+         this.handleSubmit = this.handleSubmit.bind(this);
+         this.handleChange = this.handleChange.bind(this);
+         this.handleDateChange = this.handleDateChange.bind(this);
     }
     
+    
+    async handleSubmit(event) {
+        event.preventDefault();
+        const{item} = this.state;
+        await fetch('/api/expenses', {
+            method : 'POST',
+            headers : { 
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body : JSON.stringify(item), //Converts a JavaScript value to a (JSON) string.
+        });
+        console.log(this.state)
+        this.props.history.push("/expenses");
+    }
+    
+    handleChange(event) {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        let item ={...this.state.item};
+        item[name] = value;
+        this.setState({item});
+        console.log(this.state.item);
+        console.log(item);
+    }
+
+    handleDateChange(date) {
+        let item = {...this.state.item};
+        item.expensedate = date;
+        this.setState({item});
+        console.log(item);
+    }
+
+
     async remove(id) {
         await fetch(`/api/expenses/${id}`, {
             method: 'DELETE',
@@ -74,7 +111,7 @@ class Expenses extends Component {
             let rows = 
                     Expenses.map(expense =>
                         
-                        <tr>
+                        <tr key={expense.id}>
                             <td>{expense.description}</td>
                             <td>{expense.location}</td>
                             <td>{expense.expensedate}</td>
@@ -93,32 +130,28 @@ class Expenses extends Component {
                         {title}
                         <Form onSubmit={this.handleSubmit}>
                             <FormGroup>
-                                <Label for="Title">Title</Label>
-                                <Input type="text" name="Title" 
-                                    id="Title" onChange={this.handleChange} autocomplete="name"/>
+                                <Label for="description">Title</Label>
+                                <Input type="description" name="description" 
+                                    id="description" onChange={this.handleChange} autocomplete="name"/>
                             </FormGroup>
 
                             <FormGroup>
                                 <Label for="category">Category</Label>
-                               
                                 <select>
                                     {optionList}
                                 </select>
-
-                                <Input type="text" name="category" 
-                                    id="category" onChange={this.handleChange}/>
                             </FormGroup>
 
                             <FormGroup>
                                 <Label for="city">Date</Label>
-                                <DatePicker selected={this.state.date} onChange={this.handleChange}/>
+                                <DatePicker selected={this.state.item.expensedate} onChange={this.handleDateChange}/>
                             </FormGroup>
 
                             <div className="row">
                             
                             <FormGroup className="col-md-4 mb-3">
                                 <Label for="location">Location</Label>
-                                <Input type="text" name="location" id="location"/>
+                                <Input type="text" name="location" id="location" onChange={this.handleChange}/>
                             </FormGroup>
                             
                             </div>
