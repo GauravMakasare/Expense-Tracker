@@ -30,7 +30,7 @@ public class Expense {
 	@ManyToOne
 	private Category category;
 
-	@JsonIgnore
+	@JsonIgnore //we do not want to add this information to the response
 	@ManyToOne
 	private User user;
 

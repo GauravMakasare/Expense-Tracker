@@ -4,27 +4,62 @@ import DatePicker from 'react-datepicker';
 import './App.css';
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from 'react-router-dom';
-import {Container, Input, Button, Label, Form, FormGroup } from 'reactstrap';
-
+import {Container, Input, Button, Label, Form, FormGroup, Table, } from 'reactstrap';
+import Moment from 'react-moment';
 class Expenses extends Component {
-    state = { 
-        date: new Date(),
-        isLoading : true,
-        expenses : [],
-        Categories : []
-     }
+     
+    emptyItem = {
+        id :'103',
+        expensedate: new Date(),
+        description:'',
+        location:'',
+        category:[1, 'Travel']
+    }
+
+    constructor(props) {
+        super(props)
+
+        this.state = { 
+            date: new Date(),
+            isLoading : false,
+            Categories : [],
+            Expenses :[],
+            item : this.emptyItem
+    
+         }
+    }
+    
+    async remove(id) {
+        await fetch(`/api/expenses/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept' : 'application/json', 
+                'Content-Type' : 'application/json'
+            }
+        }).then ( () => {
+            let updatedExpenses=[...this.state.Expenses].filter(i => i.id !==id);
+            this.setState({Expenses : updatedExpenses}); 
+        });
+    }
+
     
      async componentDidMount(){
+
+
          const response = await fetch('/api/categories');
          const body = await response.json();
-
          this.setState({Categories: body, isLoading: false});
+
+
+         const responseExp = await fetch('/api/expenses');
+         const bodyExp = await responseExp.json();
+         this.setState({Expenses : bodyExp, isLoading: false});
      }
 
     render() { 
         const title = <h3>Add Your Expenses</h3>;
-        const {Categories, isLoading} = this.state;
-
+        const {Categories} = this.state;
+        const {Expenses , isLoading} = this.state;
         if(isLoading)
             return(<div>Loading...</div>)
             
@@ -34,6 +69,21 @@ class Expenses extends Component {
                         {category.name}
                     </option>
                     )
+            
+
+            let rows = 
+                    Expenses.map(expense =>
+                        
+                        <tr>
+                            <td>{expense.description}</td>
+                            <td>{expense.location}</td>
+                            <td>{expense.expensedate}</td>
+                            <td>{expense.category.name}</td>
+                            <td><Button size="sm" color="danger" onClick={ () => this.remove(expense.id) }>Delete</Button></td>
+                        </tr>
+                        
+                        )
+
 
 
         return ( 
@@ -80,6 +130,36 @@ class Expenses extends Component {
 
                         </Form>
                     </Container>
+
+                    {''}
+
+                    <Container>
+                        <h4>Expense List</h4>
+                        <Table className="mt-4">
+                            <thead>
+                                <tr>
+                                   <th width="30%">Description</th>
+                                   <th width="10%">Location</th>
+                                   <th>Date</th>
+                                   <th>Category</th>
+                                   
+                                   <th width="10%">Actions</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {rows}
+
+                            </tbody>
+
+
+
+                        </Table>
+                    </Container>
+
+
+
+
                 </div> );
     }
 }
