@@ -7,40 +7,78 @@ import { Link } from 'react-router-dom';
 import {Container, Input, Button, Label, Form, FormGroup } from 'reactstrap';
 
 class Expenses extends Component {
-    state = {  }
-    handleChange
+    state = { 
+        date: new Date(),
+        isLoading : true,
+        expenses : [],
+        Categories : []
+     }
+    
+     async componentDidMount(){
+         const response = await fetch('/api/categories');
+         const body = await response.json();
+
+         this.setState({Categories: body, isLoading: false});
+     }
+
     render() { 
-        return ( <div>
+        const title = <h3>Add Your Expenses</h3>;
+        const {Categories, isLoading} = this.state;
+
+        if(isLoading)
+            return(<div>Loading...</div>)
+            
+            let optionList = 
+                Categories.map(category =>
+                    <option id={category.id}>
+                        {category.name}
+                    </option>
+                    )
+
+
+        return ( 
+                <div>
                     <AppNav/>
                     <Container>
-                        <form>
-                            
+                        {title}
+                        <Form onSubmit={this.handleSubmit}>
                             <FormGroup>
-                                <label for="Title">Title</label>
-                                <input type="text" name="Title" id="Title" onChange={this.handleChange}/>
+                                <Label for="Title">Title</Label>
+                                <Input type="text" name="Title" 
+                                    id="Title" onChange={this.handleChange} autocomplete="name"/>
                             </FormGroup>
 
                             <FormGroup>
-                                <label for="category">Category</label>
-                                <input type="text" name="category" id="category" onChange={this.handleChange}/>
+                                <Label for="category">Category</Label>
+                               
+                                <select>
+                                    {optionList}
+                                </select>
+
+                                <Input type="text" name="category" 
+                                    id="category" onChange={this.handleChange}/>
                             </FormGroup>
 
                             <FormGroup>
-                                <label for="expenseData">Date</label>
+                                <Label for="city">Date</Label>
                                 <DatePicker selected={this.state.date} onChange={this.handleChange}/>
                             </FormGroup>
 
-                            <FormGroup>
-                                <label for="location">Location</label>
-                                <input type="text" name="location" id="location" onChange={this.handleChange}></input>
+                            <div className="row">
+                            
+                            <FormGroup className="col-md-4 mb-3">
+                                <Label for="location">Location</Label>
+                                <Input type="text" name="location" id="location"/>
                             </FormGroup>
-
+                            
+                            </div>
+                            
                             <FormGroup>
                                <Button color="primary" type="submit">Save</Button>{' '}
-                               <Button color="secondary" tag={Link} to="/categories">Cancel</Button>
+                               <Button color="secondary" tag={Link} to="/">Cancel</Button>
                             </FormGroup>
 
-                        </form>
+                        </Form>
                     </Container>
                 </div> );
     }
