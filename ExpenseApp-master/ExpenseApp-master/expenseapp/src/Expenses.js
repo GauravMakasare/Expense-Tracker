@@ -208,8 +208,6 @@ class Expenses extends Component {
                 </Table>
               </Container>
 
-          }
-
         </div>
 
         );
